@@ -1,0 +1,9 @@
+{
+	"name": "datafactorydekho",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4fc98d50-5a09-4b4d-a535-a91a6c8a0697",
+		"tenantId": "70e69cff-a832-47bf-b167-3b8040e45d63"
+	}
+}

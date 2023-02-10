@@ -1,0 +1,101 @@
+{
+	"name": "pipeline2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DelimitedText5",
+						"type": "DatasetReference",
+						"parameters": {
+							"source": {
+								"value": "@variables('baseURL')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DATALAKE",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "relativeURL",
+					"value": "suresh12345/AzureDataEngineering_Batch/blob/main/ecdc_data/hospital_admissions.csv"
+				}
+			}
+		],
+		"variables": {
+			"baseURL": {
+				"type": "String",
+				"defaultValue": "https://github.com/"
+			},
+			"relativeURL": {
+				"type": "String",
+				"defaultValue": "suresh12345/AzureDataEngineering_Batch/blob/main/ecdc_data/testing.csv"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-02-08T22:06:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
